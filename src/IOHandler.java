@@ -13,7 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class IOHandler {
+    private boolean test;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public IOHandler() {}
+    public IOHandler(boolean test) {
+        this.test = test;
+    }
     public List<Member> readDataFromFile(Path fileIn) throws IOException {
         try (BufferedReader bufferedReader = Files.newBufferedReader(fileIn)){
             List<Member> members = new ArrayList<>();
@@ -34,6 +39,7 @@ public class IOHandler {
 
     public void printVisitToFile(Member member) throws IOException {
         Path filePath = getPathToFileForMember(member);
+        System.out.println(filePath);
         if (!Files.exists(filePath)) {
             createFileForMember(member);
         }
@@ -44,6 +50,7 @@ public class IOHandler {
         }
     }
     public Path getPathToFileForMember(Member member) {
+        if (test) return Paths.get("test/testCostumer.txt");
         String pathString = "costumers/" + member.getPersonId() + ".txt";
         return Paths.get(pathString);
     }
